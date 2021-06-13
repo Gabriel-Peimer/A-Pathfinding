@@ -1,0 +1,23 @@
+{
+    "name": "pathfinding",
+    "version": "1.0.0",
+    "description": "A* Pathfinding algorithm visualized",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js",
+        "devStart": "nodemon index.js"
+    },
+    "keywords": [
+        "A*",
+        "Pathfinding"
+    ],
+    "author": "Gabriel Peimer",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.7"
+    }
+}

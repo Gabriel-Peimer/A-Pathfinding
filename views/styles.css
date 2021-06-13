@@ -1,0 +1,95 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --node-size: 3.5rem;
+}
+
+/* pathfinding */
+
+.container {
+    width: calc(var(--node-size) * 20);
+    height: calc(var(--node-size) * 9);
+    /* background: gray; */
+    margin: 0.5rem auto;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 2px;
+}
+
+.node {
+    background: black;
+    width: var(--node-size);
+    height: var(--node-size);
+    user-select: none;
+}
+
+.node.open {
+    background: green;
+}
+
+.node.closed {
+    background: red;
+}
+
+.node.path {
+    background: purple;
+}
+
+.node.wall {
+    background: rgb(185, 99, 106);
+}
+
+.node.start {
+    background: rgb(192, 192, 192);
+}
+
+.node.end {
+    background: rgb(95, 95, 95);
+}
+
+/* buttons */
+
+button {
+    border: none;
+    padding: 0.5rem 0.8rem;
+    font-size: 1.2rem;
+    margin: 0.4rem 0.8rem;
+    border-radius: 5px;
+}
+
+.start {
+    background-color: rgb(160, 160, 160);
+    color: white;
+}
+
+.finish {
+    background-color: rgb(122, 122, 122);
+    color: white;
+}
+
+.wall {
+    background-color: rgb(196, 92, 100);
+    color: white;
+}
+
+.run {
+    background-color: rgb(19, 192, 19);
+}
+
+.clear {
+    background-color: rgb(255, 79, 79);
+    color: white;
+    float: right;
+}
