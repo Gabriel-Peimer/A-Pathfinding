@@ -1,7 +1,7 @@
 class Board {
     constructor() {
-        this.sizeX = 20;
-        this.sizeY = 9;
+        this.sizeX = 30;
+        this.sizeY = 14;
         this.grid = [];
 
         this.populatGrid();

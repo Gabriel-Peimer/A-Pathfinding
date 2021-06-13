@@ -58,18 +58,18 @@ const wall = document.querySelector('.wall');
 const run = document.querySelector('.run');
 const clear = document.querySelector('.clear');
 const nodes = document.querySelectorAll('.node');
-let blockType = 'wall';
+let blockType = BlockType.WALL;
 
 start.addEventListener('click', () => {
-    blockType = 'start';
+    blockType = BlockType.START;
 });
 
 finish.addEventListener('click', () => {
-    blockType = 'end';
+    blockType = BlockType.END;
 });
 
 wall.addEventListener('click', () => {
-    blockType = 'wall';
+    blockType = BlockType.WALL;
 });
 
 clear.addEventListener('click', () => {
@@ -85,7 +85,7 @@ function clearGrid() {
 }
 
 function updateNode(node, e) {
-    if (blockType == 'start' || blockType == 'end') {
+    if (blockType == BlockType.START || blockType == BlockType.END) {
         const current = nodeContainer.querySelector(`.${blockType}`);
         if (current != null) {
             current.classList.remove(blockType);
@@ -93,11 +93,11 @@ function updateNode(node, e) {
     }
 
     const [row, col] = getGridElementsPosition(getNodeIndex(e.target));
-    if (blockType == 'wall') {
+    if (blockType == BlockType.WALL) {
         grid.grid[row][col].isWalkable = false;
-    } else if (blockType == 'start') {
+    } else if (blockType == BlockType.START) {
         startNode = [col, row];
-    } else if (blockType == 'end') {
+    } else if (blockType == BlockType.END) {
         endNode = [col, row];
     }
     node.classList.add(blockType);
@@ -129,7 +129,7 @@ run.addEventListener('click', async function () {
         node.classList.remove('closed');
         node.classList.add('path');
 
-        await sleep(50);
+        await sleep(30);
     }
 });
 

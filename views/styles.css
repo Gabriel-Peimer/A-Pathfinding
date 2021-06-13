@@ -12,39 +12,42 @@ body {
 }
 
 :root {
-    --node-size: 3.5rem;
+    --node-size: calc(80vw / var(--node-count-width));
+    --node-gap: 1px;
+    --node-count-width: 30;
+    --node-count-height: 14;
 }
 
 /* pathfinding */
 
 .container {
-    width: calc(var(--node-size) * 20);
-    height: calc(var(--node-size) * 9);
-    /* background: gray; */
+    width: calc(var(--node-size) * var(--node-count-width));
+    height: calc(var(--node-size) * var(--node-count-height));
     margin: 0.5rem auto;
     display: grid;
-    grid-template-columns: repeat(20, 1fr);
-    grid-template-rows: repeat(9, 1fr);
-    gap: 2px;
+    grid-template-columns: repeat(var(--node-count-width), 1fr);
+    grid-template-rows: repeat(var(--node-count-height), 1fr);
+    gap: 0;
 }
 
 .node {
     background: black;
+    border: 0.01px solid white;
     width: var(--node-size);
     height: var(--node-size);
     user-select: none;
 }
 
 .node.open {
-    background: green;
+    background: rgb(0, 150, 0);
 }
 
 .node.closed {
-    background: red;
+    background: rgb(150, 0, 0);
 }
 
 .node.path {
-    background: purple;
+    background: rgb(153, 0, 153);
 }
 
 .node.wall {
