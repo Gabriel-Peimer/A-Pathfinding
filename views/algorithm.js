@@ -1,4 +1,4 @@
-async function algorithm(grid, start, end) {
+async function astar(grid, start, end, speed) {
     const startNode = new Node(null, start, true);
     startNode.gCost = startNode.hCost = startNode.fCost = 0;
 
@@ -15,7 +15,7 @@ async function algorithm(grid, start, end) {
         if (path != null) {
             break;
         }
-        await sleep(100);
+        await sleep(speed);
         [openList, closedList, path] = step(
             grid,
             startNode,

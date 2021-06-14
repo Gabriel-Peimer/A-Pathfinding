@@ -12,6 +12,15 @@
         <button class="finish">Finish</button>
         <button class="wall">Wall</button>
         <button class="run">Run</button>
+        <select name="algorithm" id="algorithm-type">
+            <option value="A*" selected="selected">A*</option>
+            <option value="Dijkstra">Dijkstra</option>
+        </select>
+        <select name="speed" id="algorithm-speed">
+            <option value="x1" selected="selected">x1</option>
+            <option value="x2">x2</option>
+            <option value="x4">x4</option>
+        </select>
         <button class="clear">Clear</button>
 
         <div class="container" id="container"></div>
@@ -20,6 +29,7 @@
         <script defer src="PathNode.js"></script>
         <script defer src="Board.js"></script>
         <script defer src="algorithm.js"></script>
+        <script defer src="dijkstra.js"></script>
         <script defer src="app.js"></script>
     </body>
 </html>

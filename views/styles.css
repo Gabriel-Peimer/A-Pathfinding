@@ -96,3 +96,12 @@ button {
     color: white;
     float: right;
 }
+
+/* drop boxs */
+
+select {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid black;
+    font-size: 1rem;
+    border-radius: 2px;
+}

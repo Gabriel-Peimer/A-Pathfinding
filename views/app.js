@@ -115,9 +115,24 @@ nodes.forEach((node) => {
     });
 });
 
+const speedMap = {
+    x1: 100,
+    x2: 50,
+    x4: 25,
+};
+
 run.addEventListener('click', async function () {
     // Run the algorithm
-    const path = await algorithm(grid, startNode, endNode);
+    clearUnspecialNodes(grid);
+    const option = document.getElementById('algorithm-type');
+    const speed = document.getElementById('algorithm-speed');
+    let path;
+    const delay = speedMap[speed.value];
+    if (option.value == 'A*') {
+        path = await astar(grid, startNode, endNode, delay);
+    } else if (option.value == 'Dijkstra') {
+        path = await dijkstra(grid, startNode, endNode, delay);
+    }
     for (let i = 0; i < path.length; i++) {
         const nodePos = path[i];
 
@@ -151,5 +166,30 @@ function updateGUI(openList, closedList) {
             `:nth-child(${nodePosition[0] + 1 + nodePosition[1] * grid.sizeX})`
         );
         openNode.classList.add('open');
+    }
+}
+
+function clearUnspecialNodes(grid) {
+    const closedNodes = document.querySelectorAll('.closed');
+    const openNodes = document.querySelectorAll('.open');
+    const pathNodes = document.querySelectorAll('.path');
+
+    closedNodes.forEach((node) => {
+        node.classList.remove('closed');
+    });
+    openNodes.forEach((node) => {
+        node.classList.remove('open');
+    });
+    pathNodes.forEach((node) => {
+        node.classList.remove('path');
+    });
+
+    for (let y = 0; y < grid.sizeY; y++) {
+        for (let x = 0; x < grid.sizeX; x++) {
+            grid.grid[y][x].gCost =
+                grid.grid[y][x].hCost =
+                grid.grid[y][x].fCost =
+                    0;
+        }
     }
 }
