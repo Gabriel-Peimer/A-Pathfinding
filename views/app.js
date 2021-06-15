@@ -94,13 +94,26 @@ function updateNode(node, e) {
 
     const [row, col] = getGridElementsPosition(getNodeIndex(e.target));
     if (blockType == BlockType.WALL) {
-        grid.grid[row][col].isWalkable = false;
+        grid.grid[row][col].isWalkable = grid.grid[row][col].isWalkable
+            ? false
+            : true;
     } else if (blockType == BlockType.START) {
         startNode = [col, row];
     } else if (blockType == BlockType.END) {
         endNode = [col, row];
     }
-    node.classList.add(blockType);
+    if (blockType == BlockType.START || blockType == BlockType.END) {
+        node.classList.add(blockType);
+    } else if (blockType == BlockType.WALL) {
+        for (let i = 0; i < node.classList.length; i++) {
+            const className = node.classList[i];
+            if (className == blockType) {
+                node.className = 'node';
+                return;
+            }
+        }
+        node.classList.add(blockType);
+    }
 }
 
 nodes.forEach((node) => {
@@ -119,6 +132,7 @@ const speedMap = {
     x1: 100,
     x2: 50,
     x4: 25,
+    x8: 12.5,
 };
 
 run.addEventListener('click', async function () {

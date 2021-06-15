@@ -39,27 +39,27 @@ body {
 }
 
 .node.open {
-    background: rgb(0, 150, 0);
+    background: hsl(120, 80%, 30%);
 }
 
 .node.closed {
-    background: rgb(150, 0, 0);
+    background: hsl(0, 60%, 40%);
 }
 
 .node.path {
-    background: rgb(153, 0, 153);
+    background: hsl(320, 70%, 50%);
 }
 
 .node.wall {
-    background: rgb(185, 99, 106);
+    background: hsl(0, 0%, 50%);
 }
 
 .node.start {
-    background: rgb(192, 192, 192);
+    background: hsl(120, 70%, 50%);
 }
 
 .node.end {
-    background: rgb(95, 95, 95);
+    background: hsl(0, 60%, 70%);
 }
 
 /* buttons */
