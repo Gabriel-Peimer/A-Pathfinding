@@ -1,10 +1,10 @@
-class Board {
+class Grid {
     constructor() {
         this.sizeX = 30;
         this.sizeY = 14;
         this.grid = [];
 
-        this.populatGrid();
+        this.clearGrid();
     }
 
     getNode(position) {
@@ -37,7 +37,7 @@ class Board {
         return neighbours;
     }
 
-    populatGrid() {
+    clearGrid() {
         this.grid = [];
         for (let y = 0; y < this.sizeY; y++) {
             let yArray = [];
@@ -47,5 +47,15 @@ class Board {
             }
             this.grid.push(yArray);
         }
+    }
+
+    getDistance(nodeA, nodeB) {
+        const distanceX = Math.abs(nodeA.position[0] - nodeB.position[0]);
+        const distanceY = Math.abs(nodeA.position[1] - nodeB.position[1]);
+
+        if (distanceX > distanceY) {
+            return 14 * distanceY + 10 * (distanceX - distanceY);
+        }
+        return 14 * distanceX + 10 * (distanceY - distanceX);
     }
 }

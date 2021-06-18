@@ -4,7 +4,6 @@ class Node {
         this.position = position;
         this.gCost = 0;
         this.hCost = 0;
-        this.fCost = 0;
         this.isWalkable = walkable;
     }
 
@@ -13,5 +12,9 @@ class Node {
             this.position[0] == other.position[0] &&
             this.position[1] == other.position[1]
         );
+    }
+
+    getFCost() {
+        return this.gCost + this.hCost;
     }
 }

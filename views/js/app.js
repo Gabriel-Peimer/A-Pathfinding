@@ -1,8 +1,16 @@
 // The board
-let grid = new Board();
+let grid = new Grid();
 
 let startNode;
 let endNode;
+
+// For user speed control
+const speedMap = {
+    x1: 100,
+    x2: 50,
+    x4: 25,
+    x8: 12.5,
+};
 
 // Figure out if mouse is down
 
@@ -16,40 +24,8 @@ nodeContainer.onmouseup = function () {
     mouseDown = false;
 };
 
-// Display original board in DOM
-
-for (let x = 0; x < grid.sizeX; x++) {
-    for (let y = 0; y < grid.sizeY; y++) {
-        const node = document.createElement('div');
-        node.classList.add('node');
-        nodeContainer.appendChild(node);
-    }
-}
-
-function getGridElementsPosition(index) {
-    let offset =
-        Number(
-            window.getComputedStyle(nodeContainer.children[0]).gridColumnStart
-        ) - 1;
-    if (isNaN(offset)) {
-        offset = 0;
-    }
-    const colCount = window
-        .getComputedStyle(nodeContainer)
-        .gridTemplateColumns.split(' ').length;
-    const rowPosition = Math.floor((index + offset) / colCount);
-    const colPosition = (index + offset) % colCount;
-    return [rowPosition, colPosition];
-}
-
-function getNodeIndex(elm) {
-    let c = elm.parentNode.children;
-    for (let i = 0; i < c.length; i++) {
-        if (c[i] == elm) {
-            return i;
-        }
-    }
-}
+// Run first display
+displayBoard();
 
 // So that the user can change the grid
 const start = document.querySelector('.start');
@@ -73,16 +49,11 @@ wall.addEventListener('click', () => {
 });
 
 clear.addEventListener('click', () => {
-    clearGrid();
-});
-
-function clearGrid() {
-    grid.populatGrid();
-
+    grid.clearGrid();
     nodes.forEach((node) => {
         node.className = 'node';
     });
-}
+});
 
 function updateNode(node, e) {
     if (blockType == BlockType.START || blockType == BlockType.END) {
@@ -91,6 +62,7 @@ function updateNode(node, e) {
             current.classList.remove(blockType);
         }
     }
+    console.log('A');
 
     const [row, col] = getGridElementsPosition(getNodeIndex(e.target));
     if (blockType == BlockType.WALL) {
@@ -128,13 +100,6 @@ nodes.forEach((node) => {
     });
 });
 
-const speedMap = {
-    x1: 100,
-    x2: 50,
-    x4: 25,
-    x8: 12.5,
-};
-
 run.addEventListener('click', async function () {
     // Run the algorithm
     clearUnspecialNodes(grid);
@@ -162,7 +127,16 @@ run.addEventListener('click', async function () {
     }
 });
 
-// Display the GUI
+// Display grid (GUI) in DOM
+function displayBoard() {
+    for (let x = 0; x < grid.sizeX; x++) {
+        for (let y = 0; y < grid.sizeY; y++) {
+            const node = document.createElement('div');
+            node.classList.add('node');
+            nodeContainer.appendChild(node);
+        }
+    }
+}
 
 function updateGUI(openList, closedList) {
     for (let i = 0; i < closedList.length; i++) {
@@ -183,6 +157,49 @@ function updateGUI(openList, closedList) {
     }
 }
 
+// For finding the location a node would be in the 2d array
+function getGridElementsPosition(index) {
+    let offset =
+        Number(
+            window.getComputedStyle(nodeContainer.children[0]).gridColumnStart
+        ) - 1;
+    if (isNaN(offset)) {
+        offset = 0;
+    }
+    const colCount = window
+        .getComputedStyle(nodeContainer)
+        .gridTemplateColumns.split(' ').length;
+    const rowPosition = Math.floor((index + offset) / colCount);
+    const colPosition = (index + offset) % colCount;
+    return [rowPosition, colPosition];
+}
+
+function getNodeIndex(elm) {
+    let c = elm.parentNode.children;
+    for (let i = 0; i < c.length; i++) {
+        if (c[i] == elm) {
+            return i;
+        }
+    }
+}
+
+// Generates randomized map
+function generateMap() {
+    nodes.forEach((node) => {
+        node.classList.remove('wall');
+        const [row, col] = getGridElementsPosition(getNodeIndex(node));
+        grid.grid[row][col].isWalkable = true;
+
+        const isWalkable = Math.floor(Math.random() * 3) == 0 ? false : true;
+        if (!isWalkable) {
+            node.classList.add('wall');
+            const [row, col] = getGridElementsPosition(getNodeIndex(node));
+            grid.grid[row][col].isWalkable = false;
+        }
+    });
+}
+
+// For re-running on same map
 function clearUnspecialNodes(grid) {
     const closedNodes = document.querySelectorAll('.closed');
     const openNodes = document.querySelectorAll('.open');

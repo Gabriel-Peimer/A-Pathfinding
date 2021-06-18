@@ -1,9 +1,11 @@
 async function astar(grid, start, end, speed) {
     const startNode = new Node(null, start, true);
-    startNode.gCost = startNode.hCost = startNode.fCost = 0;
+    startNode.gCost = startNode.hCost = 0;
+    startNode.isWalkable = true;
 
     const endNode = new Node(null, end, true);
-    endNode.gCost = endNode.hCost = endNode.fCost = 0;
+    endNode.gCost = endNode.hCost = 0;
+    endNode.isWalkable = true;
 
     // Initialize the open and closed lists
     let openList = [];
@@ -60,15 +62,14 @@ function step(grid, startNode, endNode, openList, closedList) {
         }
 
         const newMovementCost =
-            currentNode.gCost + getDistance(currentNode, neighbourNode);
+            currentNode.gCost + grid.getDistance(currentNode, neighbourNode);
         if (
             newMovementCost < neighbourNode.gCost ||
             openList.includes(neighbourNode) == false
         ) {
             // create the g, h, f costs
             neighbourNode.gCost = newMovementCost;
-            neighbourNode.hCost = getDistance(neighbourNode, endNode);
-            neighbourNode.fCost = neighbourNode.gCost + neighbourNode.hCost;
+            neighbourNode.hCost = grid.getDistance(neighbourNode, endNode);
 
             neighbourNode.parent = currentNode;
 
@@ -85,8 +86,8 @@ function findLowestFCost(openList) {
 
     openList.forEach((node) => {
         if (
-            node.fCost < currentLowest.fCost ||
-            (node.fCost == currentLowest.fCost &&
+            node.getFCost() < currentLowest.getFCost() ||
+            (node.getFCost() == currentLowest.getFCost() &&
                 node.hCost < currentLowest.hCost)
         ) {
             currentLowest = node;
@@ -94,16 +95,6 @@ function findLowestFCost(openList) {
     });
 
     return currentLowest;
-}
-
-function getDistance(nodeA, nodeB) {
-    const distanceX = Math.abs(nodeA.position[0] - nodeB.position[0]);
-    const distanceY = Math.abs(nodeA.position[1] - nodeB.position[1]);
-
-    if (distanceX > distanceY) {
-        return 14 * distanceY + 10 * (distanceX - distanceY);
-    }
-    return 14 * distanceX + 10 * (distanceY - distanceX);
 }
 
 function retracePath(startNode, endNode) {
